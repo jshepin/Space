@@ -92,7 +92,7 @@ Future<NowWeather> fetchNowWeather() async {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         //print('connected');
         final response = await http.get(
-            'http://api.openweathermap.org/data/2.5/weather?q=lincolnshire,US&appid=${getOpenWeatherMapKey()}');
+            'http://api.openweathermap.org/data/2.5/weather?q=lincolnshire,US&appid=b8905f222fb7b37b95525e6c5295d744');
         if (response.statusCode == 200) {
           weatherData1 = NowWeather.fromJson(json.decode(response.body));
           return weatherData1;
@@ -123,7 +123,8 @@ Future<Weather> fetchWeather() async {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         //print('connected');
-        final response = await http.get(getMongoDB());
+        final response = await http.get(
+            'http://api.openweathermap.org/data/2.5/forecast?q=lincolnshire,US&appid=b8905f222fb7b37b95525e6c5295d744}');
         if (response.statusCode == 200) {
           //print("success");
           weatherData2 = Weather.fromJson(json.decode(response.body));
@@ -225,10 +226,10 @@ class CurrentWeather extends StatelessWidget {
                 ],
               );
             } else {
-              return Text("nada");
+              return Text("");
             }
           } else if (snapshot.hasError) {
-            return Text("asdf");
+            return Text("");
           }
           return Container();
         },
@@ -305,7 +306,7 @@ class WeatherWidget extends StatelessWidget {
                 return Text("nada");
               }
             } else if (snapshot.hasError) {
-              return Text("asdf");
+              return Text(snapshot.data.toString());
             }
             return Container();
           },

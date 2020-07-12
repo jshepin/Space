@@ -91,17 +91,18 @@ class _SliderPickerState extends State<SliderPicker> {
 
                       //child
                       new DecoratedBox(
-                          decoration: BoxDecoration(
-                         ),
+                          decoration: BoxDecoration(),
                           child: new ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(9)),
                               child: super.widget.child))
                       :
 
                       //Color
                       new DecoratedBox(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
                               border:
                                   new Border.all(color: Colors.grey, width: 0),
                               gradient: new LinearGradient(
@@ -153,7 +154,7 @@ class _SliderLayout extends MultiChildLayoutDelegate {
         BoxConstraints.tightFor(
             width: size.width, height: _ThumbPainter.doubleTrackWidth));
     super.positionChild(
-        track, Offset(0.0, size.height / 1.5 - _ThumbPainter.trackWidth));
+        track, Offset(0.0, size.height / 2 - _ThumbPainter.trackWidth));
 
     //Thumb
     super.layoutChild(
@@ -185,8 +186,8 @@ class _ThumbPainter extends CustomPainter {
       ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
     final Paint paintBlack = new Paint()
-      ..color = Colors.white
-      ..strokeWidth = 4
+      ..color = Colors.transparent
+      ..strokeWidth = 6
       ..style = PaintingStyle.stroke;
 
     canvas.drawCircle(Offset.zero, _ThumbPainter.width, paintBlack);
@@ -825,11 +826,10 @@ class _WheelPainter extends CustomPainter {
     canvas.drawCircle(paletteVector, 12, paintBlack);
     canvas.drawCircle(paletteVector, 12, paintWhite);
   }
+
   @override
   bool shouldRepaint(_WheelPainter other) => true;
 }
-
-
 
 class PaletteHuePicker extends StatefulWidget {
   final HSVColor color;
@@ -868,7 +868,7 @@ class _PaletteHuePickerState extends State<PaletteHuePicker> {
         HSVColor.fromAHSV(1.0, this.color.hue, 1.0, 1.0).toColor()
       ];
   //Value
-  final List<Color> valueColors = [Colors.transparent, Colors.black];
+  final List<Color> valueColors = [Colors.transparent, Colors.transparent];
 
   @override
   void initState() {
@@ -1226,8 +1226,6 @@ class AlphaTrackPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
-
-
 class SwatchesPicker extends StatefulWidget {
   final ValueChanged<Color> onChanged;
 
@@ -1332,18 +1330,18 @@ List<Color> swatches = [
 
   Colors.blue[200],
   Colors.blue[300],
-  Colors.blue[400], 
-  Colors.blue[500], 
+  Colors.blue[400],
+  Colors.blue[500],
   Colors.blue[600],
-  Colors.blue[700], 
-  Colors.blue[800], 
-  Colors.blue[900], 
+  Colors.blue[700],
+  Colors.blue[800],
+  Colors.blue[900],
 
   Colors.lightBlue[200],
-  Colors.lightBlue[300], 
-  Colors.lightBlue[400], 
-  Colors.lightBlue[500], 
-  Colors.lightBlue[600], 
+  Colors.lightBlue[300],
+  Colors.lightBlue[400],
+  Colors.lightBlue[500],
+  Colors.lightBlue[600],
   Colors.lightBlue[700],
   Colors.lightBlue[800],
   Colors.lightBlue[900],
@@ -1601,7 +1599,8 @@ class ColorPickerState extends State<ColorPicker> {
               item.name,
               style: this._index == item.index
                   ? Theme.of(context).textTheme.headline.copyWith(
-                      fontSize: 18,)
+                        fontSize: 18,
+                      )
                   : Theme.of(context).textTheme.headline.copyWith(fontSize: 18),
             )));
   }
@@ -1640,7 +1639,6 @@ class ColorPickerState extends State<ColorPicker> {
         height: 38,
         child: Material(
             type: MaterialType.button,
-            
             color: Theme.of(context).cardColor,
             shadowColor: Colors.black26,
             elevation: 4.0,
@@ -1648,7 +1646,7 @@ class ColorPickerState extends State<ColorPicker> {
               borderRadius: BorderRadius.all(Radius.circular(2.0)),
             ),
             child: new DropdownButton<_IPicker>(
-              underline: Container(),
+                underline: Container(),
                 iconSize: 32.0,
                 isExpanded: true,
                 isDense: true,
@@ -1675,8 +1673,7 @@ class ColorPickerState extends State<ColorPicker> {
                 iconSize: 32.0,
                 isExpanded: true,
                 isDense: true,
-                              underline: Container(),
-
+                underline: Container(),
                 style:
                     Theme.of(context).textTheme.headline.copyWith(fontSize: 20),
                 value: this._pickers[this._index],
