@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'dart:io';
 import 'package:space/pages/alertView.dart';
+import 'package:space/secret/secret.dart';
 
 class Alert {
   String title;
@@ -15,8 +16,7 @@ Future<Alert> getAlert() async {
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      Db db = new Db(
-          "mongodb://spaceAdmin:nega5897@ds361998.mlab.com:61998/stevensondotspace");
+      Db db = new Db(getMongoDB());
 
       await db.open();
       var coll = db.collection('alerts');

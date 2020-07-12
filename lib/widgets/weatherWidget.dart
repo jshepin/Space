@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:space/secret/secret.dart';
 
 var weatherData1;
 var weatherData2;
@@ -91,9 +92,8 @@ Future<NowWeather> fetchNowWeather() async {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         //print('connected');
         final response = await http.get(
-            'http://api.openweathermap.org/data/2.5/weather?q=lincolnshire,US&appid=b8905f222fb7b37b95525e6c5295d744');
+            'http://api.openweathermap.org/data/2.5/weather?q=lincolnshire,US&appid=${getOpenWeatherMapKey()}');
         if (response.statusCode == 200) {
-          //print("successes");
           weatherData1 = NowWeather.fromJson(json.decode(response.body));
           return weatherData1;
         } else {
@@ -123,8 +123,7 @@ Future<Weather> fetchWeather() async {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         //print('connected');
-        final response = await http.get(
-            'http://api.openweathermap.org/data/2.5/forecast?q=lincolnshire,US&appid=b8905f222fb7b37b95525e6c5295d744');
+        final response = await http.get(getMongoDB());
         if (response.statusCode == 200) {
           //print("success");
           weatherData2 = Weather.fromJson(json.decode(response.body));
@@ -174,9 +173,15 @@ class CurrentWeather extends StatelessWidget {
               return Column(
                 children: <Widget>[
                   Container(
-                      height: 90,
-                      child: Image.asset(
-                          "assets/weatherIcons/${snapshot.data.icon}.png",color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,),),
+                    height: 90,
+                    child: Image.asset(
+                      "assets/weatherIcons/${snapshot.data.icon}.png",
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
                   Text("${caseWord(snapshot.data.description)}",
                       style: TextStyle(fontSize: 20)),
                   Padding(
@@ -255,10 +260,17 @@ class WeatherWidget extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey[400],
-                          blurRadius: MediaQuery.of(context).platformBrightness == Brightness.dark ? 1:8,
+                          blurRadius:
+                              MediaQuery.of(context).platformBrightness ==
+                                      Brightness.dark
+                                  ? 1
+                                  : 8,
                         ),
                       ],
-                      color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Color(0xff2f3136) : Colors.white,
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Color(0xff2f3136)
+                          : Colors.white,
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
@@ -271,8 +283,8 @@ class WeatherWidget extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 11),
                               child: Text(
                                 "Weather",
-                                style: TextStyle(
-                                   fontSize: 23, fontFamily: "sans"),
+                                style:
+                                    TextStyle(fontSize: 23, fontFamily: "sans"),
                               ),
                             ),
                             Divider(
@@ -312,7 +324,7 @@ class WeatherWidget extends StatelessWidget {
               padding: const EdgeInsets.only(top: 9.0),
               child: Text(
                 "Current",
-               style: TextStyle(fontSize: 21,  fontFamily: 'sans'),
+                style: TextStyle(fontSize: 21, fontFamily: 'sans'),
               ),
             ),
             CurrentWeather(),
@@ -323,16 +335,18 @@ class WeatherWidget extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 9.0),
-                child: Text(
-                  "Tomorrow",
-                  style: TextStyle(fontSize: 21, fontFamily: 'sans')
-                  
-                ),
+                child: Text("Tomorrow",
+                    style: TextStyle(fontSize: 21, fontFamily: 'sans')),
               ),
               Container(
                   height: 90,
                   child: Image.asset(
-                      "assets/weatherIcons/${snapshot.data.currentIcon}.png",color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,)),
+                    "assets/weatherIcons/${snapshot.data.currentIcon}.png",
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  )),
               Text("${caseWord(snapshot.data.currentDescription)}",
                   style: TextStyle(fontSize: 20)),
               Padding(
@@ -388,15 +402,18 @@ class WeatherWidget extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 9.0),
-              child: Text(
-                "Today",
-               style: TextStyle(fontSize: 21, fontFamily: 'sans')
-              ),
+              child: Text("Today",
+                  style: TextStyle(fontSize: 21, fontFamily: 'sans')),
             ),
             Container(
                 height: 90,
                 child: Image.asset(
-                    "assets/weatherIcons/${snapshot.data.currentIcon}.png",color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,)),
+                  "assets/weatherIcons/${snapshot.data.currentIcon}.png",
+                  color: MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                )),
             Text("${caseWord(snapshot.data.currentDescription)}",
                 style: TextStyle(fontSize: 20)),
             Padding(
@@ -437,15 +454,18 @@ class WeatherWidget extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 9.0),
-                child: Text(
-                  "Tomorrow",
-                  style: TextStyle(fontSize: 21, fontFamily: 'sans')
-                ),
+                child: Text("Tomorrow",
+                    style: TextStyle(fontSize: 21, fontFamily: 'sans')),
               ),
               Container(
                   height: 90,
                   child: Image.asset(
-                      "assets/weatherIcons/${snapshot.data.futureIcon}.png",color: MediaQuery.of(context).platformBrightness == Brightness.dark ? Colors.white : Colors.black,)),
+                    "assets/weatherIcons/${snapshot.data.futureIcon}.png",
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                  )),
               Text("${caseWord(snapshot.data.futureDescription)}",
                   style: TextStyle(fontSize: 20)),
               Padding(

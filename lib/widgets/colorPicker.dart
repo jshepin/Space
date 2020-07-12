@@ -19,11 +19,20 @@ class _PickerState extends State<Picker> {
     return Scaffold(
       backgroundColor: dark ? Color(0xff2f3136) : Colors.white,
       bottomNavigationBar: BtmBar(),
-      body: Container(
+      body: SafeArea(
         child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
+            padding: const EdgeInsets.all(8),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 0),
+                  child: Text(
+                    "Colors",
+                    style: TextStyle(fontSize: 37),
+                  ),
+                ),
+                Divider(),
                 FutureBuilder<String>(
                     future: getColor(),
                     builder: (context, colorSnapshot) {
@@ -36,8 +45,6 @@ class _PickerState extends State<Picker> {
                             onChanged: (Color c) async {
                               print(
                                   "got color ${c.toString().substring(9, 16)}");
-                              //setState(() {
-                              //});
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               await prefs.setString(

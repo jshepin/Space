@@ -1,3 +1,4 @@
+import 'package:space/secret/secret.dart';
 import 'package:space/widgets/countdown.dart';
 import 'dart:io';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -22,8 +23,7 @@ Future<List<Schedule>> getSchedules() async {
     try {
       if (connectivityResult == ConnectivityResult.mobile ||
           connectivityResult == ConnectivityResult.wifi) {
-        Db db = new Db(
-            "mongodb://spaceAdmin:nega5897@ds361998.mlab.com:61998/stevensondotspace");
+        Db db = new Db(getMongoDB());
 
         await db.open();
         var coll = db.collection('schedules');
